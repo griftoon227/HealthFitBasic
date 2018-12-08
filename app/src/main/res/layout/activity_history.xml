@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/StdStyle.Background"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_view_week"
+        style="@style/StdStyle.Button"
+        android:text="View this weeks steps" />
+
+    <Button
+        android:id="@+id/btn_view_today"
+        style="@style/StdStyle.Button"
+        android:text="View today's steps"/>
+
+    <TextView
+        android:id="@+id/show_text"
+        style="@style/StdStyle.Text"
+        android:text=""/>
+</LinearLayout>

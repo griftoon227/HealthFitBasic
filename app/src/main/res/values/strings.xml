@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">HealthFit Basic</string>
+    <string name="healthfit_title_text">HEALTHFIT</string>
+    <string name="sign_in_btn_text">Sign In</string>
+    <string name="username_etv_hint_splash">Google Email</string>
+    <string name="logout_btn_text">Logout</string>
+    <string name="main_menu_tv_text">Main Menu</string>
+    <string name="view_history_btn_text">View History</string>
+    <string name="record_data_btn_text">Record Steps</string>
+    <string name="my_profile_btn_text">My Profile</string>
+    <string name="set_goals_btn_text">Set Goals</string>
+    <string name="recording_steps_desc_text">Allows the user to enable and disable the recording of user steps over a time period. Recording will occur in the background until recording is stopped.</string>
+    <string name="profile_desc_text">Allows the user to view basic profile information.\nProfile information includes:\n- Name\n- Height\n- Weight\n- Age</string>
+    <string name="history_desc_text">Allows the user to view their current history during a particular time period.\n\nHistory information includes:\n-Steps</string>
+    <string name="goals_desc_text">Allows the user to view their current fitness goals.</string>
+    <string name="logout_desc_text">Signs out from the current Google account.</string>
+    <string name="start_recording_steps_btn_text">Start Recording Steps</string>
+    <string name="stop_recording_steps_btn_text">Stop Recording Steps</string>
+    <string name="goals_title_text">Goals</string>
+    <string name="no_goals_text">No Goals Have Been Set Yet!</string>
+    <string name="users_name_profile_text">Name:</string>
 </resources>

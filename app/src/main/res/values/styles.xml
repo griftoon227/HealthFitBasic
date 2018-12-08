@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -8,4 +8,49 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="StdStyle" parent="android:Theme.Material" tools:targetApi="lollipop">
+        <item name="android:typeface">monospace</item>
+    </style>
+    <style name="StdStyle.Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+    <style name="StdStyle.TextNavDesc">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+    <style name="StdStyle.TextNavDescLand">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+    <style name="StdStyle.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+    <style name="StdStyle.List">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="StdStyle.Background">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorBackgroundStart</item>
+    </style>
+    <style name="StdStyle.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorButtonEnd</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:background">@color/colorButtonStart</item>
+    </style>
 </resources>
