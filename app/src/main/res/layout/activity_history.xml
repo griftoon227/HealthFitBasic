@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/StdStyle.Background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/history_activity_layout">
 
-    <Button
-        android:id="@+id/btn_view_week"
-        style="@style/StdStyle.Button"
-        android:text="View this weeks steps" />
+    <TextView
+        style="@style/StdStyle.Title"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/user_history_activity_title_text"/>
 
-    <Button
-        android:id="@+id/btn_view_today"
-        style="@style/StdStyle.Button"
-        android:text="View today's steps"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_view_week"
+            style="@style/StdStyle.HistoryButton"
+            android:text="@string/view_this_weeks_steps_btn_text" />
+
+        <Button
+            android:id="@+id/btn_view_today"
+            style="@style/StdStyle.HistoryButton"
+            android:text="@string/view_todays_steps_btn_text"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/show_text"
         style="@style/StdStyle.Text"
-        android:text=""/>
+        android:layout_gravity="center_horizontal"
+        android:text=""
+        android:textAlignment="center"
+        android:visibility="gone" />
+
+    <com.example.tmdm9.healthfitbasic.HistoryListView
+        android:id="@+id/show_list"
+        style="@style/StdStyle.List"
+        android:visibility="gone" />
 </LinearLayout>

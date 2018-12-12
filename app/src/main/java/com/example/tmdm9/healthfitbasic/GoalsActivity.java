@@ -1,5 +1,6 @@
 package com.example.tmdm9.healthfitbasic;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,7 +25,7 @@ public class GoalsActivity extends AppCompatActivity {
     ListView goalsListView;
     ArrayAdapter<String> arrayAdapter;
 
-    int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 2;
+    private static final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +57,20 @@ public class GoalsActivity extends AppCompatActivity {
                         .build());
 
         goalsTask.addOnSuccessListener(this::populateListView);
+
+        //Implement going to the previous screen from a right swipe of the activity
+        findViewById(R.id.goals_activity_layout).setOnTouchListener(new OnSwipeTouchListener(this){
+            public void onSwipeRight(){
+                startActivity(new Intent(GoalsActivity.this, MainScreenActivity.class));
+            }
+        });
     }
 
     private void populateListView(List<Goal> goals){
         ArrayList<String> goalsStrings = new ArrayList<>();
+
+        if(goals!=null)
+            System.out.println("Is goals empty: "+goals.isEmpty());
 
         if (!(goals == null || goals.isEmpty())) {
             for(Goal goal : goals) {

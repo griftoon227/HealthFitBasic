@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -39,12 +38,24 @@ public class RecordSteps extends AppCompatActivity {
                     fitnessOptions);
         }
 
-        Button startRecordingBtn = findViewById(R.id.btn_start_recording);
-        Button stopRecordingBtn = findViewById(R.id.btn_stop_recording);
+        Button recordingBtn = findViewById(R.id.recording_btn);
+        recordingBtn.setOnClickListener(view -> {
+            if(recordingBtn.getText().equals(getString(R.string.start_recording_steps_btn_text))){
+                startRecording();
+                recordingBtn.setText(getString(R.string.stop_recording_steps_btn_text));
+            }
+            else{
+                stopRecording();
+                recordingBtn.setText(getString(R.string.start_recording_steps_btn_text));
+            }
+        });
 
-        startRecordingBtn.setOnClickListener((View v) -> startRecording());
-
-        stopRecordingBtn.setOnClickListener((View v) -> stopRecording());
+        //Implement going to the previous screen from a right swipe of the activity
+        findViewById(R.id.recording_activity_layout).setOnTouchListener(new OnSwipeTouchListener(this){
+            public void onSwipeRight(){
+                startActivity(new Intent(RecordSteps.this, MainScreenActivity.class));
+            }
+        });
     }
 
     @Override
@@ -65,11 +76,11 @@ public class RecordSteps extends AppCompatActivity {
     public void startRecording() {
         // To create a subscription, invoke the Recording API. As soon as the subscription is
         // active, fitness data will start recording.
-        Fitness.getRecordingClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
+        Fitness.getRecordingClient(RecordSteps.this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(RecordSteps.this)))
                 .subscribe(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(aVoid -> Log.i(TAG, "Successfully subscribed!"))
                 .addOnFailureListener(e -> Log.i(TAG, "There was a problem subscribing."));
-        Toast.makeText(getApplicationContext(), "Recording has started.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RecordSteps.this, "Recording has started.", Toast.LENGTH_SHORT).show();
     }
 
     // Stops recording by cancelling the subscription to step counting
@@ -79,7 +90,7 @@ public class RecordSteps extends AppCompatActivity {
 
         // Invoke the Recording API to unsubscribe from the data type and specify a callback that
         // will check the result.
-        Fitness.getRecordingClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
+        Fitness.getRecordingClient(RecordSteps.this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(RecordSteps.this)))
                 .unsubscribe(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(aVoid -> Log.i(TAG, "Successfully unsubscribed for data type: " + dataTypeStr))
                 .addOnFailureListener(e -> {
@@ -87,6 +98,6 @@ public class RecordSteps extends AppCompatActivity {
                     Log.i(TAG, "Failed to unsubscribe for data type: " + dataTypeStr);
                 });
 
-        Toast.makeText(getApplicationContext(), "Recording has stopped.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(RecordSteps.this, "Recording has stopped.", Toast.LENGTH_SHORT).show();
     }
 }

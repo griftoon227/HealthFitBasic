@@ -25,7 +25,7 @@
         android:layout_marginTop="@dimen/splash_screen_margins_dp"
         android:layout_marginEnd="@dimen/splash_screen_margins_dp"
         android:layout_marginRight="@dimen/splash_screen_margins_dp"
-        android:src="@drawable/healthfit_splash"
+        android:src="@drawable/healthfit_splash_land"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@id/sign_in_btn"
         app:layout_constraintTop_toBottomOf="@+id/splash_screen_title"

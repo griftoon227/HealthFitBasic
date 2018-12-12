@@ -2,6 +2,8 @@
 <resources>
     <dimen name="splash_screen_margins_dp">8dp</dimen>
     <dimen name="main_screen_text_margin_size">8dp</dimen>
-    <dimen name="main_screen_bar_btn_width_size">0dp</dimen>
+    <dimen name="mainscreen_dimen">10dp</dimen>
     <dimen name="history_screen_layout_padding">8dp</dimen>
+    <dimen name="recording_btn_margin">12dp</dimen>
+    <dimen name="main_screen_card_title_margin_size">4dp</dimen>
 </resources>

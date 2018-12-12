@@ -1,84 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/StdStyle.Background"
-    tools:context=".MainScreenActivity"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/main_menu_text"
-        style="@style/StdStyle.Title"
-        android:layout_marginStart="@dimen/main_screen_text_margin_size"
-        android:layout_marginLeft="@dimen/main_screen_text_margin_size"
-        android:layout_marginTop="@dimen/main_screen_text_margin_size"
-        android:layout_marginEnd="@dimen/main_screen_text_margin_size"
-        android:layout_marginRight="@dimen/main_screen_text_margin_size"
-        android:layout_marginBottom="@dimen/main_screen_text_margin_size"
-        android:text="@string/main_menu_tv_text"
-        android:layout_gravity="center_horizontal"/>
+    tools:context=".MainScreenActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/btn_record_data"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/main_screen_bar_btn_width_size"
-                android:text="@string/record_data_btn_text"
-                android:layout_weight="1"
-                style="?android:buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/btn_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/main_screen_bar_btn_width_size"
-                android:text="@string/my_profile_btn_text"
-                android:layout_weight="1"
-                style="?android:buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/btn_history"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/main_screen_bar_btn_width_size"
-                android:text="@string/view_history_btn_text"
-                android:layout_weight="1"
-                style="?android:buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/btn_goals"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/main_screen_bar_btn_width_size"
-                android:text="@string/set_goals_btn_text"
-                android:layout_weight="1"
-                style="?android:buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/main_screen_bar_btn_width_size"
-                android:text="@string/logout_btn_text"
-                android:layout_weight="1"
-                style="?android:buttonBarButtonStyle"/>
-        </LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/nav_description_text"
-            style="@style/StdStyle.TextNavDesc"
+            android:id="@+id/main_menu_text"
+            style="@style/StdStyle.Title"
             android:layout_marginStart="@dimen/main_screen_text_margin_size"
             android:layout_marginLeft="@dimen/main_screen_text_margin_size"
             android:layout_marginTop="@dimen/main_screen_text_margin_size"
             android:layout_marginEnd="@dimen/main_screen_text_margin_size"
             android:layout_marginRight="@dimen/main_screen_text_margin_size"
             android:layout_marginBottom="@dimen/main_screen_text_margin_size"
-            android:text=""
-            android:layout_gravity="center"/>
+            android:text="@string/main_menu_tv_text"
+            android:layout_gravity="center_horizontal"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/mainscreen_dimen"
+            android:layout_margin="@dimen/mainscreen_dimen"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:id="@+id/recording_layout">
+
+            <TextView
+                android:id="@+id/btn_record_data"
+                style="@style/StdStyle.TextMainMenuCardTitle"
+                android:text="@string/record_data_btn_text" />
+
+            <TextView
+                android:id="@+id/recording_desc_text"
+                style="@style/StdStyle.TextNavDesc"
+                android:text="@string/recording_steps_desc_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/mainscreen_dimen"
+            android:layout_margin="@dimen/mainscreen_dimen"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:id="@+id/profile_layout">
+
+            <TextView
+                android:id="@+id/btn_profile"
+                style="@style/StdStyle.TextMainMenuCardTitle"
+                android:text="@string/my_profile_btn_text" />
+
+            <TextView
+                android:id="@+id/profile_desc_text"
+                style="@style/StdStyle.TextNavDesc"
+                android:text="@string/profile_desc_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/mainscreen_dimen"
+            android:layout_margin="@dimen/mainscreen_dimen"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:id="@+id/history_layout">
+
+            <TextView
+                android:id="@+id/btn_history"
+                style="@style/StdStyle.TextMainMenuCardTitle"
+                android:text="@string/view_history_btn_text"/>
+
+            <TextView
+                android:id="@+id/history_desc_text"
+                style="@style/StdStyle.TextNavDesc"
+                android:text="@string/history_desc_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/mainscreen_dimen"
+            android:layout_margin="@dimen/mainscreen_dimen"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:id="@+id/goals_layout">
+
+            <TextView
+                android:id="@+id/btn_goals"
+                style="@style/StdStyle.TextMainMenuCardTitle"
+                android:text="@string/set_goals_btn_text" />
+
+            <TextView
+                android:id="@+id/goals_desc_text"
+                style="@style/StdStyle.TextNavDesc"
+                android:text="@string/goals_desc_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/mainscreen_dimen"
+            android:layout_margin="@dimen/mainscreen_dimen"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:id="@+id/logout_layout">
+
+            <TextView
+                android:id="@+id/btn_logout"
+                style="@style/StdStyle.TextMainMenuCardTitle"
+                android:text="@string/logout_btn_text" />
+
+            <TextView
+                android:id="@+id/logout_desc_text"
+                style="@style/StdStyle.TextNavDesc"
+                android:text="@string/logout_desc_text"/>
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

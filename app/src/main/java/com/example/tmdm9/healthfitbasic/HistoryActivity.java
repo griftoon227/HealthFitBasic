@@ -1,8 +1,11 @@
 package com.example.tmdm9.healthfitbasic;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -15,18 +18,18 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static java.text.DateFormat.getDateInstance;
-import static java.text.DateFormat.getTimeInstance;
-
 public class HistoryActivity extends AppCompatActivity {
     TextView tv;
+    ListView lv;
 
     private static final String TAG = "HistoryAPI";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 2;
@@ -44,19 +47,28 @@ public class HistoryActivity extends AppCompatActivity {
         
         if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
             GoogleSignIn.requestPermissions(
-                    this,
+                    HistoryActivity.this,
                     REQUEST_OAUTH_REQUEST_CODE,
                     GoogleSignIn.getLastSignedInAccount(this),
                     fitnessOptions);
         }
 
         tv = findViewById(R.id.show_text);
+        lv = findViewById(R.id.show_list);
+
         findViewById(R.id.btn_view_week).setOnClickListener(v -> readHistoryData());
         findViewById(R.id.btn_view_today).setOnClickListener(v -> Fitness.getHistoryClient(
-                this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
+                HistoryActivity.this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(HistoryActivity.this)))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
-                .addOnSuccessListener(this::printDataSet)
+                .addOnSuccessListener(this::createDailyText)
                 .addOnFailureListener(e -> Log.e(TAG, "There was a problem reading the data.", e)));
+
+        //Implement going to the previous screen from a right swipe of the activity
+        findViewById(R.id.history_activity_layout).setOnTouchListener(new OnSwipeTouchListener(this){
+            public void onSwipeRight(){
+                startActivity(new Intent(HistoryActivity.this, MainScreenActivity.class));
+            }
+        });
     }
 
     private DataReadRequest queryFitnessData() {
@@ -67,10 +79,6 @@ public class HistoryActivity extends AppCompatActivity {
         long endTime = cal.getTimeInMillis();
         cal.add(Calendar.WEEK_OF_YEAR, -1);
         long startTime = cal.getTimeInMillis();
-
-        java.text.DateFormat dateFormat = getDateInstance();
-        Log.i(TAG, "Range Start: " + dateFormat.format(startTime));
-        Log.i(TAG, "Range End: " + dateFormat.format(endTime));
 
         // The data request can specify multiple data types to return, effectively
         // combining multiple data queries into one call.
@@ -93,42 +101,72 @@ public class HistoryActivity extends AppCompatActivity {
         DataReadRequest readRequest = queryFitnessData();
 
         // Invoke the History API to fetch the data with the query
-        Fitness.getHistoryClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
+        Fitness.getHistoryClient(HistoryActivity.this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .readData(readRequest)
                 .addOnSuccessListener(dataReadResult -> {
                     // If the DataReadRequest object specified aggregated data, dataReadResult will be returned
                     // as buckets containing DataSets, instead of just DataSets.
                     if (dataReadResult.getBuckets().size() > 0) {
+                        String[] dates = new String[7];
+                        ArrayList<String> steps = new ArrayList<>();
+
+                        Calendar calendar = Calendar.getInstance();
+
+                        for(int i = 0; i < dates.length; i++){
+                            if(i==0)
+                                calendar.add(Calendar.DAY_OF_WEEK, 0);
+                            else
+                                calendar.add(Calendar.DAY_OF_WEEK, -1);
+                            dates[i] = new SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.getTime());
+                            System.out.println("Date: " + dates[i] + " " + calendar.getTime().toString());
+                        }
+
                         for (Bucket bucket : dataReadResult.getBuckets()) {
-                            List<DataSet> dataSets = bucket.getDataSets();
-                            for (DataSet dataSet : dataSets) {
-                                printDataSet(dataSet);
+                            for (DataSet dataSet : bucket.getDataSets()) {
+                                steps.add(String.format("%s", createWeekList(dataSet)));
                             }
                         }
-                    }
-                    else if (dataReadResult.getDataSets().size() > 0) {
-                        Log.i(TAG, "Number of returned DataSets is: " + dataReadResult.getDataSets().size());
-                        for (DataSet dataSet : dataReadResult.getDataSets()) {
-                            printDataSet(dataSet);
-                        }
+                        tv.setVisibility(View.GONE);
+                        lv.setAdapter(new HistoryListAdapter(HistoryActivity.this, R.layout.steps_item, steps, Arrays.asList(dates)));
+                        lv.setVisibility(View.VISIBLE);
                     }
                 })
                 .addOnFailureListener(
                         e -> Log.e(TAG, "There was a problem reading the data.", e));
     }
 
-    private void printDataSet(DataSet dataSet) {
-        tv.setText(String.format("%s\n%s %s\n", tv.getText(), "Data returned for Data type:", dataSet.getDataType().getName()));
-        DateFormat dateFormat = getTimeInstance();
+    private int createWeekList(DataSet dataSet) {
+        int steps = 0;
 
         for (DataPoint dp : dataSet.getDataPoints()) {
-            tv.setText(String.format("%s\n%s\n%s %s\n%s %s\n%s %s\n", tv.getText(), "Data point:", "Type:",
-                    dp.getDataType().getName(), "Start:", dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)),
-                    "End:", dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS))));
             for (Field field : dp.getDataType().getFields()) {
-                tv.setText(String.format("%s\n%s %s %s %s\n", tv.getText(), "Field:", field.getName(), "Value:",
-                        dp.getValue(field)));
+                steps += (dp.getValue(field).asInt());
             }
         }
+
+        return steps;
+    }
+
+    private void createDailyText(DataSet dataSet) {
+        StringBuilder text = new StringBuilder();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_WEEK, 0);
+        int steps = 0;
+
+        text.append(new SimpleDateFormat("EEEE", Locale.US).format(calendar.getTime())).append("\n");
+
+        if(!dataSet.isEmpty()) {
+            for(DataPoint dp : dataSet.getDataPoints()){
+                for(Field field : dp.getDataType().getFields()){
+                    steps += dp.getValue(field).asInt();
+                }
+            }
+        }
+
+        text.append("Steps: ").append(steps);
+
+        lv.setVisibility(View.GONE);
+        tv.setText(text.toString());
+        tv.setVisibility(View.VISIBLE);
     }
 }

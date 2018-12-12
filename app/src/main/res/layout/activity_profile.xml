@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/StdStyle.Background"
     tools:context=".ProfileActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/profile_activity_layout">
 
     <TextView
         android:id="@+id/profile_title_text"
@@ -16,5 +17,41 @@
         style="@style/StdStyle.Text"
         android:text="@string/users_name_profile_text"
         android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/view_prof_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_profile_btn_text"/>
+
+    <EditText
+        android:id="@+id/height_etv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:text=""
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/weight_etv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:text=""
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/save_height_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_height_btn_text"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/save_weight_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_weight_btn_text"
+        android:visibility="gone"/>
 
 </LinearLayout>

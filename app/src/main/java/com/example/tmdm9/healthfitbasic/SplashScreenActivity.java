@@ -56,8 +56,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         };
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
                 .requestProfile()
+                .requestIdToken("1047166767015-c166fj666j3ra5oc8hcee1b4vhv57ivq.apps.googleusercontent.com")
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -66,7 +67,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        // Build a GoogleSignInClient with the options specified by gso. For now commented.
+        // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
@@ -97,7 +98,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, go to next screen
                         startActivity(new Intent(SplashScreenActivity.this, MainScreenActivity.class));
-                    } else {
+                    }
+                    else {
                         // If sign in fails, display a message to the user.
                         Log.w("ERROR", "signInWithCredential:failure", task.getException());
                     }
