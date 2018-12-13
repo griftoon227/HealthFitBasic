@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
@@ -18,6 +20,7 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +41,11 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        //for ads
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -113,12 +121,11 @@ public class HistoryActivity extends AppCompatActivity {
                         Calendar calendar = Calendar.getInstance();
 
                         for(int i = 0; i < dates.length; i++){
-                            if(i==0)
-                                calendar.add(Calendar.DAY_OF_WEEK, 0);
+                            if(i == 0)
+                                calendar.add(Calendar.DAY_OF_WEEK, -6);
                             else
-                                calendar.add(Calendar.DAY_OF_WEEK, -1);
+                                calendar.add(Calendar.DAY_OF_WEEK, 1);
                             dates[i] = new SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.getTime());
-                            System.out.println("Date: " + dates[i] + " " + calendar.getTime().toString());
                         }
 
                         for (Bucket bucket : dataReadResult.getBuckets()) {
@@ -126,6 +133,11 @@ public class HistoryActivity extends AppCompatActivity {
                                 steps.add(String.format("%s", createWeekList(dataSet)));
                             }
                         }
+
+                        /*for(String step: steps)
+                            System.out.println("Steps: " + step);
+                        for(String date: dates)
+                            System.out.println("Date: " + date);*/
                         tv.setVisibility(View.GONE);
                         lv.setAdapter(new HistoryListAdapter(HistoryActivity.this, R.layout.steps_item, steps, Arrays.asList(dates)));
                         lv.setVisibility(View.VISIBLE);
@@ -140,6 +152,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         for (DataPoint dp : dataSet.getDataPoints()) {
             for (Field field : dp.getDataType().getFields()) {
+                System.out.println("Date: "+DateFormat.getDateInstance().format(dp.getStartTime(TimeUnit.MILLISECONDS)));
                 steps += (dp.getValue(field).asInt());
             }
         }

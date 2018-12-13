@@ -32,21 +32,22 @@ import static com.example.tmdm9.healthfitbasic.Converter.*;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final int REQUEST_OAUTH_REQUEST_CODE = 2;
+    private static final String TAG = "Profile";
 
-    Button saveHeightButton, saveWeightButton, viewProfileButton;
-    EditText height, weight;
+    Button updateFieldsButton;
+    EditText heightETV, weight;
+    TextView height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        height = findViewById(R.id.height_etv);
+        heightETV = findViewById(R.id.height_etv);
+        height = findViewById(R.id.height_text_label);
         weight = findViewById(R.id.weight_etv);
-        saveHeightButton = findViewById(R.id.save_height_button);
-        saveWeightButton = findViewById(R.id.save_weight_button);
-        viewProfileButton = findViewById(R.id.view_prof_btn);
 
+        updateFieldsButton = findViewById(R.id.update_fields_btn);
 
         FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -77,20 +78,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        //view profile
-        viewProfileButton.setOnClickListener(view -> {
-            height.setVisibility(View.VISIBLE);
-            weight.setVisibility(View.VISIBLE);
-            saveHeightButton.setVisibility(View.VISIBLE);
-            saveWeightButton.setVisibility(View.VISIBLE);
-            setHeightTextFromAccount();
-            setWeightTextFromAccount();
-        });
+        //View Profile
+        setProfile();
 
         //Set on click listener for save buttons
-        saveHeightButton.setOnClickListener(view -> insertHeight());
-
-        saveWeightButton.setOnClickListener(view -> insertWeight());
+        updateFieldsButton.setOnClickListener(view -> {
+            insertHeight();
+            insertWeight();
+        });
     }
 
     @Override
@@ -98,8 +93,14 @@ public class ProfileActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_OAUTH_REQUEST_CODE) {
                 Log.d("SUCCESS", "Account authorization successful.");
+                setProfile();
             }
         }
+    }
+
+    private void setProfile(){
+        setHeightTextFromAccount();
+        setWeightTextFromAccount();
     }
 
     private void setHeightTextFromAccount() {
@@ -116,6 +117,8 @@ public class ProfileActivity extends AppCompatActivity {
                         for (DataSet dataSet : dataReadResponse.getDataSets()) {
                             for (DataPoint dp : dataSet.getDataPoints()) {
                                 for (Field field : dp.getDataType().getFields()) {
+                                    heightETV.setVisibility(View.GONE);
+                                    height.setVisibility(View.VISIBLE);
                                     height.setText(String.format(
                                             "%s",meterToFootConverter(dp.getValue(field).asFloat())));
                                 }
@@ -154,10 +157,12 @@ public class ProfileActivity extends AppCompatActivity {
         DataSet dataSet;
 
         //for height
-        if (!height.getText().toString().isEmpty()) {
+        if (!heightETV.getText().toString().isEmpty()) {
             dataSet = createDataForRequest(DataType.TYPE_HEIGHT,
-                    Float.parseFloat(height.getText().toString()));
+                    Float.parseFloat(heightETV.getText().toString()));
         }
+        else if(height.getVisibility() == View.VISIBLE)
+            return;
         else {
             dataSet = null;
         }
@@ -166,8 +171,7 @@ public class ProfileActivity extends AppCompatActivity {
             System.out.println(String.format("%s %s %s", dataSet, dataSet.getDataPoints().isEmpty(), dataSet.toString()));
             Fitness.getHistoryClient(ProfileActivity.this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(ProfileActivity.this)))
                     .insertData(dataSet)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(ProfileActivity.this,
-                            "Height Updated.", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Height Updated"));
         }
 
         else {
@@ -191,12 +195,11 @@ public class ProfileActivity extends AppCompatActivity {
             System.out.println(String.format("%s %s %s", dataSet, dataSet.getDataPoints().isEmpty(), dataSet.toString()));
             Fitness.getHistoryClient(ProfileActivity.this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(ProfileActivity.this)))
                     .insertData(dataSet)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(ProfileActivity.this,
-                            "Weight Updated.", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Weight Updated"));
         }
 
         else {
-            Toast.makeText(ProfileActivity.this, "Weight must be entered in feet (*-*)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileActivity.this, "Weight must be entered in pounds (20-600)", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -213,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if((dataPoint.getDataType().equals(DataType.TYPE_HEIGHT)) && (values >= 1 && values <= 9))
             dataPoint.getValue(Field.FIELD_HEIGHT).setFloat(footToMeterConverter(values));
-        else if((dataPoint.getDataType().equals(DataType.TYPE_WEIGHT)) && (values >= 1 && values <= 100))
+        else if((dataPoint.getDataType().equals(DataType.TYPE_WEIGHT)) && (values >= 20 && values <= 600))
             dataPoint.getValue(Field.FIELD_WEIGHT).setFloat(poundToKilogramConverter(values));
         else
             return null;

@@ -1,5 +1,6 @@
 package com.example.tmdm9.healthfitbasic;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class GoalsActivity extends AppCompatActivity {
+    private static final int REQUEST_OAUTH_REQUEST_CODE = 2;
     ListView goalsListView;
     ArrayAdapter<String> arrayAdapter;
 
@@ -50,13 +52,7 @@ public class GoalsActivity extends AppCompatActivity {
                     scopeLocation);
         }
 
-        Task<List<Goal>> goalsTask = Fitness.getGoalsClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
-                .readCurrentGoals(new GoalsReadRequest.Builder()
-                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-                        .addDataType(DataType.TYPE_DISTANCE_DELTA)
-                        .build());
-
-        goalsTask.addOnSuccessListener(this::populateListView);
+        readGoals();
 
         //Implement going to the previous screen from a right swipe of the activity
         findViewById(R.id.goals_activity_layout).setOnTouchListener(new OnSwipeTouchListener(this){
@@ -64,6 +60,25 @@ public class GoalsActivity extends AppCompatActivity {
                 startActivity(new Intent(GoalsActivity.this, MainScreenActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_OAUTH_REQUEST_CODE) {
+                readGoals();
+            }
+        }
+    }
+
+    private void readGoals(){
+        Task<List<Goal>> goalsTask = Fitness.getGoalsClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
+                .readCurrentGoals(new GoalsReadRequest.Builder()
+                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
+                        .addDataType(DataType.TYPE_DISTANCE_DELTA)
+                        .build());
+
+        goalsTask.addOnSuccessListener(this::populateListView);
     }
 
     private void populateListView(List<Goal> goals){

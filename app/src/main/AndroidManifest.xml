@@ -21,6 +21,9 @@
         <activity android:name=".GoalsActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".RecordSteps"></activity>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4657161302329258~1159057320"/>
     </application>
 
 </manifest>

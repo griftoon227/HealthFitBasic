@@ -28,9 +28,12 @@
     <string name="view_todays_steps_btn_text">View today\'s steps</string>
     <string name="user_history_activity_title_text">User History</string>
     <string name="splash_screen_image_desc">splash screen image</string>
-    <string name="save_height_btn_text">Save Height</string>
-    <string name="save_weight_btn_text">Save Weight</string>
-    <string name="view_profile_btn_text">View Profile</string>
+    <string name="update_fields_btn_text">Update fields</string>
     <string name="recording_steps_screen_title_text">Record Your Steps</string>
     <string name="recording_steps_screen_desc">Press "Start Recording" to start recording steps. This will occur in the background, so you may lock your phone while using this. When done, press "Stop Recording" to finish recording your steps.</string>
+    <string name="height_label_text">Height</string>
+    <string name="feet_unit_label_text">ft</string>
+    <string name="weight_label_text">Weight</string>
+    <string name="pounds_unit_label_text">lbs</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>
