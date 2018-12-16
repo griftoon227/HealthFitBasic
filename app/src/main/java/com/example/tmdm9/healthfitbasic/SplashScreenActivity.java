@@ -1,3 +1,4 @@
+//Author: Griffin Flaxman
 package com.example.tmdm9.healthfitbasic;
 
 import android.content.Intent;
@@ -20,14 +21,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class SplashScreenActivity extends AppCompatActivity {
+    //declare google sign in authorizations and client variables
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     GoogleApiClient mGoogleApiClient;
     FirebaseAuth.AuthStateListener mAuthStateListener;
     SignInButton signInButton;
 
+    //request code for requesting google account permissions & a tag for logging
     private final static int RC_SIGN_IN = 2;
+    private static final String TAG = "SplashScreenActivity";
 
+    //add a listener for if the user is already logged into a google account
     @Override
     protected void onStart(){
         super.onStart();
@@ -48,6 +53,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         //get instance of FireBase
         mAuth = FirebaseAuth.getInstance();
 
+        //if the user is logged in already, go to the main screen activity
         mAuthStateListener = firebaseAuth -> {
             if(firebaseAuth.getCurrentUser() != null)
             {
@@ -55,12 +61,14 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         };
 
+        //set the google sign in options
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
-                .requestIdToken("1047166767015-c166fj666j3ra5oc8hcee1b4vhv57ivq.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.google_sign_in_request_id_token))
                 .build();
 
+        //instantiate the google api client
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, connectionResult -> Toast.makeText(getApplicationContext(),
                         "Connection failed.", Toast.LENGTH_SHORT).show())
@@ -85,7 +93,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.w("ERROR", "Google sign in failed", e);
+                Log.e(TAG, "Google sign in failed", e);
                 // ...
             }
         }
@@ -101,11 +109,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                     }
                     else {
                         // If sign in fails, display a message to the user.
-                        Log.w("ERROR", "signInWithCredential:failure", task.getException());
+                        Log.e(TAG, "signInWithCredential:failure", task.getException());
                     }
                 });
     }
 
+    //sign into the google sign in intent to handle logging into a google account
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Author: Griffin Flaxman-->
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/StdStyle.Background"
@@ -8,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <!--Main menu title-->
         <TextView
             android:id="@+id/main_menu_text"
             style="@style/StdStyle.Title"
@@ -23,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+            <!--Card view for recording-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -43,6 +46,7 @@
                     android:text="@string/recording_steps_desc_text_land" />
             </LinearLayout>
 
+            <!--Card view for profile-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -63,6 +67,7 @@
                     android:text="@string/profile_desc_text_land" />
             </LinearLayout>
 
+            <!--Card view for history-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -83,6 +88,7 @@
                     android:text="@string/history_desc_text_land" />
             </LinearLayout>
 
+            <!--Card view for goals-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -103,6 +109,7 @@
                     android:text="@string/goals_desc_text_land"/>
             </LinearLayout>
 
+            <!--Card view for logging out-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

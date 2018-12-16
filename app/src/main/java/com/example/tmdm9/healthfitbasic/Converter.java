@@ -1,5 +1,7 @@
+//Author: Griffin Flaxman
 package com.example.tmdm9.healthfitbasic;
 
+//a converter class to save history data and display it in different units (m/kg for saving, ft/lbs for display)
 final class Converter {
     static float footToMeterConverter(float foot){
         return foot*.3048f;

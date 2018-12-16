@@ -1,3 +1,4 @@
+//Author: Griffin Flaxman
 package com.example.tmdm9.healthfitbasic;
 
 import android.annotation.SuppressLint;
@@ -10,10 +11,12 @@ import android.view.View.OnTouchListener;
 
 public class OnSwipeTouchListener implements OnTouchListener {
 
+    //declare a constant gesture detector
     private final GestureDetector gestureDetector;
 
-    OnSwipeTouchListener(Context ctx){
-        gestureDetector = new GestureDetector(ctx, new GestureListener());
+    //create a constructor that takes in the context (view) that it will be acting on
+    OnSwipeTouchListener(Context context){
+        gestureDetector = new GestureDetector(context, new GestureListener());
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -22,8 +25,10 @@ public class OnSwipeTouchListener implements OnTouchListener {
         return gestureDetector.onTouchEvent(event);
     }
 
+    //an anonymous gesture listener to listen to a simple swipe gesture
     private final class GestureListener extends SimpleOnGestureListener {
 
+        //the threshold for swiping the screen and its velocity
         private static final int SWIPE_THRESHOLD = 100;
         private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
@@ -32,6 +37,8 @@ public class OnSwipeTouchListener implements OnTouchListener {
             return true;
         }
 
+        //on fling ill test the swipe based on the thresholds and the motion, and will only detect for right
+        //swiping, which is the only necessary gesture for this application
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             boolean result = false;
@@ -53,6 +60,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
         }
     }
 
+    //the method to be overridden by whatever activity uses the gesture detector for a view or layout
     void onSwipeRight() {
     }
 }

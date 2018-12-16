@@ -1,3 +1,4 @@
+//Author: Griffin Flaxman
 package com.example.tmdm9.healthfitbasic;
 
 import android.app.Activity;
@@ -58,6 +59,7 @@ public class RecordSteps extends AppCompatActivity {
         });
     }
 
+    //if the permissions are accepted, log that
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -67,12 +69,11 @@ public class RecordSteps extends AppCompatActivity {
         }
     }
 
-    /* subscriptions can exist across application
-     * instances (so data is recorded even after the application closes down).  When creating
-     * a new subscription, it may already exist from a previous invocation of this app.  If
-     * the subscription already exists, the method is a no-op.  However, you can check this with
-     * a special success code.
-     */
+    /* subscriptions can exist across application instances (so data is recorded even after the application closes
+       down).  When creating a new subscription, it may already exist from a previous invocation of this app. If
+       the subscription already exists, the method is a no-op.  However, you can check this with a special success
+       code.
+    */
     public void startRecording() {
         // To create a subscription, invoke the Recording API. As soon as the subscription is
         // active, fitness data will start recording.

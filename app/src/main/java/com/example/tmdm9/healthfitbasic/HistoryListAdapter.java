@@ -1,3 +1,4 @@
+//Author: Griffin Flaxman
 package com.example.tmdm9.healthfitbasic;
 
 import android.app.Activity;
@@ -10,18 +11,23 @@ import android.widget.TextView;
 import java.util.List;
 
 class HistoryListAdapter extends ArrayAdapter<String> {
+    //the constructor for a list adapter with the activity it is being called from, the resource used for each list
+    //element, the list of dates, as well as the list of step data
     private List<String> dates;
+    private int resource;
     HistoryListAdapter(Context context, int resource, List<String> objects, List<String> dates) {
         super(context,resource,objects);
         this.dates = dates;
+        this.resource = resource;
     }
 
     @NonNull
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
+        //if the convertView is nonexistent, create and inflate it
         if(convertView==null)
             convertView = ((Activity)getContext()).getLayoutInflater().inflate(
-                    R.layout.steps_item,parent,false);
+                    resource,parent,false);
 
         TextView day=convertView.findViewById(R.id.Day);
         TextView steps=convertView.findViewById(R.id.Steps);

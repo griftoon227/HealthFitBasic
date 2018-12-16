@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Author: Griffin Flaxman-->
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/StdStyle.Background"
     tools:context=".SplashScreenActivity">
 
+    <!--Splash screen title text-->
     <TextView
         android:id="@+id/splash_screen_title"
         android:layout_marginStart="@dimen/splash_screen_margins_dp"
@@ -16,6 +18,7 @@
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"/>
 
+    <!--Splash screen image-->
     <ImageView
         android:id="@+id/splash_screen_image"
         android:layout_width="match_parent"
@@ -31,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/splash_screen_title"
         android:contentDescription="@string/splash_screen_image_desc" />
 
+    <!--Google sign in button-->
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_btn"
         android:layout_width="match_parent"

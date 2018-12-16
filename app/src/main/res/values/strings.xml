@@ -36,4 +36,5 @@
     <string name="weight_label_text">Weight</string>
     <string name="pounds_unit_label_text">lbs</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="google_sign_in_request_id_token">1047166767015-c166fj666j3ra5oc8hcee1b4vhv57ivq.apps.googleusercontent.com</string>
 </resources>

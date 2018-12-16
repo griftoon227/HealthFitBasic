@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Author: Griffin Flaxman-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/StdStyle.Background"
@@ -6,16 +7,19 @@
     android:orientation="vertical"
     android:id="@+id/profile_activity_layout">
 
+    <!--Profile title text-->
     <TextView
         android:id="@+id/profile_title_text"
         style="@style/StdStyle.Title"
         android:text="@string/my_profile_btn_text"/>
 
+    <!--Display the user's display name-->
     <TextView
         android:id="@+id/users_name_text"
         style="@style/StdStyle.Text"
         android:text="@string/users_name_profile_text"/>
 
+    <!--Display the height text, the height value, and the units text label-->
     <LinearLayout
         android:id="@+id/height_layout"
         android:layout_width="wrap_content"
@@ -45,6 +49,7 @@
             android:layout_marginStart="@dimen/profile_screen_ht_margin_size"/>
     </LinearLayout>
 
+    <!--Display the weight text, weight value, and the units label text-->
     <LinearLayout
         android:id="@+id/weight_layout"
         android:layout_width="wrap_content"
@@ -70,6 +75,7 @@
             android:layout_marginStart="@dimen/profile_screen_wt_margin_size"/>
     </LinearLayout>
 
+    <!--Button to update the height and weight values-->
     <Button
         android:id="@+id/update_fields_btn"
         style="@style/StdStyle.ProfileButton"
